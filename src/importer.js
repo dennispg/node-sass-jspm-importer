@@ -9,7 +9,7 @@ var fromFileURL = require('./common').fromFileURL;
 
 module.exports = function(url, prev, done) {
     if(url.substr(0, 5) != 'jspm:')
-        return done(); // bailout
+        return null; // bailout
 
     url = url.replace(/^jspm:/, '')+'.scss';
 
@@ -40,7 +40,7 @@ module.exports = function(url, prev, done) {
                     // a plain CSS @import for the browser to resolve.
                     filePath = origFilePath.replace(/\.scss$/, '');
                 } catch (e) {
-                    return done();
+                    return null;
                 }
             }
         }
@@ -49,10 +49,9 @@ module.exports = function(url, prev, done) {
                 file: filePath
             });
         } else {
-            done();
+            return null;
         }
     }, function(e) {
-        console.log("Could not resolve path:", url);
-        done();
+        done(new Error("Could not resolve path: " + url));
     });
 };
