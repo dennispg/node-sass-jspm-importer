@@ -40,7 +40,7 @@ module.exports = function(url, prev, done) {
                     // a plain CSS @import for the browser to resolve.
                     filePath = origFilePath.replace(/\.scss$/, '');
                 } catch (e) {
-                    return null;
+                    done(null);
                 }
             }
         }
@@ -49,7 +49,7 @@ module.exports = function(url, prev, done) {
                 file: filePath
             });
         } else {
-            return null;
+            done(null);
         }
     }, function(e) {
         done(new Error("Could not resolve path: " + url));
